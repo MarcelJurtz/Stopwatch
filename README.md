@@ -1,5 +1,5 @@
 # Stopwatch
 
-[![Icon ToBeImproved](https://raw.githubusercontent.com/MarcelJurtz/ProjectStatusIcons/master/ToBeImproved.png)](https://github.com/MarcelJurtz/ProjectStatusIcons)
+[![Icon Completed](https://raw.githubusercontent.com/MarcelJurtz/ProjectStatusIcons/master/Completed.png)](https://github.com/MarcelJurtz/ProjectStatusIcons)
 
 Simplistic stopwatch for android.
