@@ -8,4 +8,42 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- LinearLayouts containing hours / mins / secs and increment / decrement buttons -->
+    <style name="linearLayout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- Timer Labels -->
+    <style name="timerLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:text">@string/defaultTimerText</item>
+        <item name="android:textSize">@dimen/timerTextSize</item>
+    </style>
+
+    <!-- ImageButtons Icon on Top -->
+    <style name="timerButton_up">
+        <item name="android:layout_height">@dimen/buttonSize</item>
+        <item name="android:layout_width">@dimen/buttonSize</item>
+        <item name="android:background">@drawable/ic_arrow_drop_up_black_24dp</item>
+    </style>
+
+    <!-- ImageButtons Icon at the Bottom -->
+    <style name="timerButton_down">
+        <item name="android:layout_height">@dimen/buttonSize</item>
+        <item name="android:layout_width">@dimen/buttonSize</item>
+        <item name="android:background">@drawable/ic_arrow_drop_down_black_24dp</item>
+    </style>
+
+    <!-- Spacer -->
+    <style name="spacer">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/spacerText</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">@dimen/timerTextSize</item>
+    </style>
 </resources>

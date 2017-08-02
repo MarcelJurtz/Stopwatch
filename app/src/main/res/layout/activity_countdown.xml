@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.marceljurtz.simplestopwatch.CountdownActivity">
+
+    <!-- Layout Hours -->
+    <LinearLayout
+        android:id="@+id/llHours"
+        style="@style/linearLayout"
+        android:layout_toStartOf="@id/lblSpacerLeft">
+
+        <!-- Button Increase Hours -->
+        <ImageButton
+            android:id="@+id/cmdIncreaseHours"
+            style="@style/timerButton_up" />
+
+        <!-- Hours -->
+        <TextView
+            android:id="@+id/lblCountdownHours"
+            style="@style/timerLabel" />
+
+        <!-- Button Decrease Hours -->
+        <ImageButton
+            android:id="@+id/cmdDecreaseHours"
+            style="@style/timerButton_down" />
+
+    </LinearLayout>
+
+
+    <!-- Layout Minutes -->
+    <LinearLayout
+        android:id="@+id/llMinutes"
+        style="@style/linearLayout"
+        android:layout_centerInParent="true">
+
+        <!-- Button Increase Minutes -->
+        <ImageButton
+            android:id="@+id/cmdIncreaseMinutes"
+            style="@style/timerButton_up" />
+
+        <!-- Minutes -->
+        <TextView
+            android:id="@+id/lblCountdownMinutes"
+            style="@style/timerLabel" />
+
+        <!-- Button Decrease Minutes -->
+        <ImageButton
+            android:id="@+id/cmdDecreaseMinutes"
+            style="@style/timerButton_down" />
+
+    </LinearLayout>
+
+    <!-- Layout Seconds -->
+    <LinearLayout
+        android:id="@+id/llSeconds"
+        style="@style/linearLayout"
+        android:layout_toEndOf="@id/lblSpacerRight">
+
+        <!-- Button Increase Seconds -->
+        <ImageButton
+            android:id="@+id/cmdIncreaseSeconds"
+            style="@style/timerButton_up" />
+
+        <!-- Seconds -->
+        <TextView
+            android:id="@+id/lblCountdownSeconds"
+            style="@style/timerLabel" />
+
+        <!-- Button Decrease Seconds -->
+        <ImageButton
+            android:id="@+id/cmdDecreaseSeconds"
+            style="@style/timerButton_down" />
+
+    </LinearLayout>
+
+    <!-- Spacer Left -->
+    <TextView
+        android:id="@+id/lblSpacerLeft"
+        style="@style/spacer"
+        android:layout_toStartOf="@+id/llMinutes" />
+
+    <!-- Spacer Right -->
+    <TextView
+        android:id="@+id/lblSpacerRight"
+        style="@style/spacer"
+        android:layout_toEndOf="@+id/llMinutes" />
+
+</RelativeLayout>
