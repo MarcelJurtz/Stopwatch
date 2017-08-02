@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.marceljurtz.simplestopwatch.CountdownActivity">
+    tools:context="com.marceljurtz.simplestopwatch.countdown.CountdownView"
+    android:id="@+id/rlCountdownBackground">
 
     <!-- Layout Hours -->
     <LinearLayout

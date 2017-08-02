@@ -1,9 +1,13 @@
-package com.marceljurtz.simplestopwatch
+package com.marceljurtz.simplestopwatch.stopwatch
 
+import android.content.Intent
 import android.os.Handler
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.marceljurtz.simplestopwatch.R
+import com.marceljurtz.simplestopwatch.countdown.CountdownView
+
 import kotlinx.android.synthetic.main.activity_timer.*
 
 class TimerActivity : AppCompatActivity() {
