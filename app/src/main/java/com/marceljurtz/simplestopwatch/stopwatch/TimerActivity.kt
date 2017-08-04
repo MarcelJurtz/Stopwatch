@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.marceljurtz.simplestopwatch.R
 import com.marceljurtz.simplestopwatch.countdown.CountdownView
 
@@ -34,6 +35,7 @@ class TimerActivity : AppCompatActivity() {
         rlBackground.setOnClickListener {
             if (!timerRunning) {
                 // Start timer
+                cmdSwitchToCountdown.setVisibility(View.GONE)
                 startTime = SystemClock.uptimeMillis()
                 handler.postDelayed(updateTimer, 0)
                 timerRunning = true
@@ -42,12 +44,19 @@ class TimerActivity : AppCompatActivity() {
                 timeSwapBuff += timeInMilliseconds
                 handler.removeCallbacks(updateTimer)
                 timerRunning = false
+                cmdSwitchToCountdown.setVisibility(View.VISIBLE)
             }
         }
         rlBackground.setOnLongClickListener {
             // Reset timer
             reset()
             true
+        }
+
+        cmdSwitchToCountdown.setOnClickListener {
+            var intent = Intent(applicationContext, CountdownView::class.java)
+            finish()
+            startActivity(intent)
         }
     }
 

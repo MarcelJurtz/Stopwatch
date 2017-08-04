@@ -17,4 +17,9 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/foreground"
         android:textSize="48dp" />
+
+    <ImageButton
+        android:id="@+id/cmdSwitchToCountdown"
+        style="@style/switch_right" />
+
 </RelativeLayout>

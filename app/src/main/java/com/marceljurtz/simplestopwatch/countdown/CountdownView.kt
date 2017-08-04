@@ -1,5 +1,6 @@
 package com.marceljurtz.simplestopwatch.countdown
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
@@ -9,11 +10,13 @@ import android.widget.Toast
 import com.marceljurtz.simplestopwatch.Presenter
 import com.marceljurtz.simplestopwatch.R
 import com.marceljurtz.simplestopwatch.countdown.*
+import com.marceljurtz.simplestopwatch.stopwatch.TimerActivity
 import kotlinx.android.synthetic.main.activity_countdown.*
 
 class CountdownView : AppCompatActivity() {
 
     var presenter: CountdownPresenter? = null
+    var timerRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,19 @@ class CountdownView : AppCompatActivity() {
         setContentView(R.layout.activity_countdown)
 
         rlCountdownBackground.setOnClickListener {
-            startTimer()
+            if(!timerRunning) {
+                startTimer()
+            } else {
+                stopTimer()
+            }
+        }
+
+        rlCountdownBackground.setOnLongClickListener {
+            if(timerRunning) {
+                stopTimer()
+            }
+            presenter?.resetCountdown()
+            true
         }
 
         cmdIncreaseHours.setOnClickListener {
@@ -51,6 +66,12 @@ class CountdownView : AppCompatActivity() {
         cmdDecreaseSeconds.setOnClickListener {
             setTimerText(lblCountdownSeconds, -1)
         }
+        cmdSwitchToTimer.setOnClickListener {
+            var intent = Intent(applicationContext, TimerActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+
     }
 
     override fun onDestroy() {
@@ -69,28 +90,32 @@ class CountdownView : AppCompatActivity() {
         }
     }
 
-    protected fun onTimerUpdate(hours: Int, minutes: Int, seconds: Int) {
-        lblCountdownHours.text = hours.toString()
-        lblCountdownMinutes.text = minutes.toString()
-        lblCountdownSeconds.text = seconds.toString()
+    public fun updateTimerView(hours: Int, minutes: Int, seconds: Int) {
+        lblCountdownHours.text = (String.format("%02d", hours))
+        lblCountdownMinutes.text = (String.format("%02d", minutes))
+        lblCountdownSeconds.text = (String.format("%02d", seconds))
     }
 
     protected fun startTimer() {
-        cmdIncreaseHours.setVisibility(View.GONE)
-        cmdDecreaseHours.setVisibility(View.GONE)
-        cmdIncreaseMinutes.setVisibility(View.GONE)
-        cmdDecreaseMinutes.setVisibility(View.GONE)
-        cmdIncreaseSeconds.setVisibility(View.GONE)
-        cmdDecreaseSeconds.setVisibility(View.GONE)
+        var seconds = lblCountdownSeconds.text.toString().toLong()
+        var minutesInSeconds = lblCountdownMinutes.text.toString().toLong() * 60
+        var hoursInSeconds = lblCountdownHours.text.toString().toLong() * 3600
 
-        var secondsMillis = lblCountdownSeconds.text.toString().toLong() * 1000
-        var minutesMillis = lblCountdownMinutes.text.toString().toLong() * 60000
-        var hoursMillis = lblCountdownHours.text.toString().toLong() * 3600000
+        var combinedSeconds = seconds + minutesInSeconds + hoursInSeconds
 
-        var milliseconds = hoursMillis + minutesMillis + secondsMillis
+        if(combinedSeconds > 0) {
+            cmdIncreaseHours.setVisibility(View.GONE)
+            cmdDecreaseHours.setVisibility(View.GONE)
+            cmdIncreaseMinutes.setVisibility(View.GONE)
+            cmdDecreaseMinutes.setVisibility(View.GONE)
+            cmdIncreaseSeconds.setVisibility(View.GONE)
+            cmdDecreaseSeconds.setVisibility(View.GONE)
 
-        Toast.makeText(applicationContext, "MS: " + milliseconds, Toast.LENGTH_SHORT).show()
-        presenter?.startCountdown(milliseconds)
+            cmdSwitchToTimer.setVisibility(View.GONE)
+
+            timerRunning = true
+            presenter?.startCountdown(combinedSeconds)
+        }
     }
 
     protected fun stopTimer() {
@@ -100,6 +125,10 @@ class CountdownView : AppCompatActivity() {
         cmdDecreaseMinutes.setVisibility(View.VISIBLE)
         cmdIncreaseSeconds.setVisibility(View.VISIBLE)
         cmdDecreaseSeconds.setVisibility(View.VISIBLE)
+
+        cmdSwitchToTimer.setVisibility(View.VISIBLE)
+
         presenter?.stopCountdown()
+        timerRunning = false
     }
 }
