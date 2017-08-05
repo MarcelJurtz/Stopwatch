@@ -20,6 +20,7 @@ class CountdownView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.supportActionBar?.hide()
 
         // Set up presenter
         presenter = CountdownPresenter()

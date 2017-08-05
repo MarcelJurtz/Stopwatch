@@ -30,7 +30,7 @@ class TimerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
-        this.supportActionBar!!.hide()
+        this.supportActionBar?.hide()
 
         rlBackground.setOnClickListener {
             if (!timerRunning) {
