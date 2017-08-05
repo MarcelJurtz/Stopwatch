@@ -29,7 +29,7 @@ class CountdownView : AppCompatActivity() {
         setContentView(R.layout.activity_countdown)
 
         rlCountdownBackground.setOnClickListener {
-            if(!timerRunning) {
+            if (!timerRunning) {
                 startTimer()
             } else {
                 stopTimer()
@@ -37,7 +37,7 @@ class CountdownView : AppCompatActivity() {
         }
 
         rlCountdownBackground.setOnLongClickListener {
-            if(timerRunning) {
+            if (timerRunning) {
                 stopTimer()
             }
             presenter?.resetCountdown()
@@ -45,27 +45,27 @@ class CountdownView : AppCompatActivity() {
         }
 
         cmdIncreaseHours.setOnClickListener {
-            setTimerText(lblCountdownHours, 1)
+            setTimerText(lblCountdownHours, 1, 24)
         }
 
         cmdDecreaseHours.setOnClickListener {
-            setTimerText(lblCountdownHours, -1)
+            setTimerText(lblCountdownHours, -1, 24)
         }
 
         cmdIncreaseMinutes.setOnClickListener {
-            setTimerText(lblCountdownMinutes, 1)
+            setTimerText(lblCountdownMinutes, 1, 60)
         }
 
         cmdDecreaseMinutes.setOnClickListener {
-            setTimerText(lblCountdownMinutes, -1)
+            setTimerText(lblCountdownMinutes, -1, 60)
         }
 
         cmdIncreaseSeconds.setOnClickListener {
-            setTimerText(lblCountdownSeconds, 1)
+            setTimerText(lblCountdownSeconds, 1, 60)
         }
 
         cmdDecreaseSeconds.setOnClickListener {
-            setTimerText(lblCountdownSeconds, -1)
+            setTimerText(lblCountdownSeconds, -1,60)
         }
         cmdSwitchToTimer.setOnClickListener {
             var intent = Intent(applicationContext, TimerActivity::class.java)
@@ -80,14 +80,16 @@ class CountdownView : AppCompatActivity() {
         super.onDestroy()
     }
 
-    fun setTimerText(view: TextView, change: Int) {
+    fun setTimerText(view: TextView, change: Int, max: Int) {
         var time = view.text.toString().toInt() + change
-        if(time >= 0) {
-            if(time < 10 ) {
+        if (time >= 0 && time <= max) {
+            if (time < 10) {
                 view.text = "0" + time.toString()
             } else {
                 view.text = time.toString()
             }
+        } else if (time >= 0) {
+            view.text = "00"
         }
     }
 
@@ -104,7 +106,7 @@ class CountdownView : AppCompatActivity() {
 
         var combinedSeconds = seconds + minutesInSeconds + hoursInSeconds
 
-        if(combinedSeconds > 0) {
+        if (combinedSeconds > 0) {
             cmdIncreaseHours.setVisibility(View.GONE)
             cmdDecreaseHours.setVisibility(View.GONE)
             cmdIncreaseMinutes.setVisibility(View.GONE)
