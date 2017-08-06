@@ -48,36 +48,78 @@ class CountdownView : AppCompatActivity() {
             setTimerText(lblCountdownHours, 1, 24)
         }
 
+        cmdIncreaseHours.setOnLongClickListener {
+            setTimerText(lblCountdownHours, 10, 24)
+            true
+        }
+
         cmdDecreaseHours.setOnClickListener {
             setTimerText(lblCountdownHours, -1, 24)
         }
 
+        cmdDecreaseHours.setOnLongClickListener {
+            setTimerText(lblCountdownHours, -10, 24)
+            true
+        }
+
         cmdIncreaseMinutes.setOnClickListener {
-            setTimerText(lblCountdownMinutes, 1, 60)
+            setTimerText(lblCountdownMinutes, 1, 59)
+        }
+
+        cmdIncreaseMinutes.setOnLongClickListener {
+            setTimerText(lblCountdownMinutes, 10, 59)
+            true
         }
 
         cmdDecreaseMinutes.setOnClickListener {
-            setTimerText(lblCountdownMinutes, -1, 60)
+            setTimerText(lblCountdownMinutes, -1, 59)
+        }
+
+        cmdDecreaseMinutes.setOnLongClickListener {
+            setTimerText(lblCountdownMinutes, -10, 59)
+            true
         }
 
         cmdIncreaseSeconds.setOnClickListener {
-            setTimerText(lblCountdownSeconds, 1, 60)
+            setTimerText(lblCountdownSeconds, 1, 59)
+        }
+
+        cmdIncreaseSeconds.setOnLongClickListener {
+            setTimerText(lblCountdownSeconds, 10, 59)
+            true
         }
 
         cmdDecreaseSeconds.setOnClickListener {
-            setTimerText(lblCountdownSeconds, -1,60)
+            setTimerText(lblCountdownSeconds, -1,59)
         }
+
+        cmdDecreaseSeconds.setOnLongClickListener {
+            setTimerText(lblCountdownSeconds, -10, 59)
+            true
+        }
+
         cmdSwitchToTimer.setOnClickListener {
             var intent = Intent(applicationContext, TimerActivity::class.java)
             finish()
             startActivity(intent)
         }
 
+        initCountdownView()
+
     }
 
     override fun onDestroy() {
         presenter?.detachView()
         super.onDestroy()
+    }
+
+    private fun initCountdownView() {
+        var time: IntArray = presenter?.initControls() ?: kotlin.IntArray(3)
+        var seconds = time[2]
+        var minutes = time[1]
+        var hours = time [0]
+
+        updateTimerView(hours, minutes, seconds)
     }
 
     fun setTimerText(view: TextView, change: Int, max: Int) {

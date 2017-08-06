@@ -6,6 +6,7 @@ import com.marceljurtz.simplestopwatch.Presenter
 class CountdownPresenter : Presenter<CountdownView> {
 
     private var countdownView: CountdownView? = null
+    private var countdownModel: CountdownModel? = null
     private var startTime = 0L
     private var timeInSeconds = 0L
     private var timeSwapBuff = 0L
@@ -20,14 +21,25 @@ class CountdownPresenter : Presenter<CountdownView> {
 
     override fun attachView(view: CountdownView) {
         this.countdownView = view
+        this.countdownModel = CountdownModel(countdownView?.applicationContext)
     }
 
     override fun detachView() {
         this.countdownView = null
     }
 
+    fun initControls(): IntArray {
+        return countdownModel?.getDefaultTime() ?: kotlin.IntArray(3)
+    }
+
+    fun setDefaultTime(seconds: Long) {
+        countdownModel?.setDefaultTime(seconds)
+    }
+
     fun startCountdown(seconds: Long) {
         // Save to SharedPreferences and start timer
+        setDefaultTime(seconds)
+
         startTime = seconds
         handler.postDelayed(updateTimer, 1000)
     }
