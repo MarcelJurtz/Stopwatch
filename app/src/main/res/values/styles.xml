@@ -29,14 +29,16 @@
     <style name="timerButton_up">
         <item name="android:layout_height">@dimen/buttonSize</item>
         <item name="android:layout_width">@dimen/buttonSize</item>
-        <item name="android:background">@drawable/ic_arrow_drop_up_black_24dp</item>
+        <item name="android:src">@drawable/ic_arrow_drop_up_black_24dp</item>
+        <item name="android:tint">@color/foreground</item>
     </style>
 
     <!-- ImageButtons Icon at the Bottom -->
     <style name="timerButton_down">
         <item name="android:layout_height">@dimen/buttonSize</item>
         <item name="android:layout_width">@dimen/buttonSize</item>
-        <item name="android:background">@drawable/ic_arrow_drop_down_black_24dp</item>
+        <item name="android:src">@drawable/ic_arrow_drop_down_black_24dp</item>
+        <item name="android:tint">@color/foreground</item>
     </style>
 
     <!-- Spacer -->
@@ -53,7 +55,8 @@
     <style name="switch_right">
         <item name="android:layout_width">@dimen/buttonSize</item>
         <item name="android:layout_height">@dimen/buttonSize</item>
-        <item name="android:background">@drawable/ic_chevron_right_black_24dp</item>
+        <item name="android:src">@drawable/ic_chevron_right_black_24dp</item>
+        <item name="android:tint">@color/foreground</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
@@ -62,7 +65,8 @@
     <style name="switch_left">
         <item name="android:layout_width">@dimen/buttonSize</item>
         <item name="android:layout_height">@dimen/buttonSize</item>
-        <item name="android:background">@drawable/ic_chevron_left_black_24dp</item>
+        <item name="android:src">@drawable/ic_chevron_left_black_24dp</item>
+        <item name="android:tint">@color/foreground</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_centerVertical">true</item>
     </style>

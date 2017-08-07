@@ -17,7 +17,8 @@
         <!-- Button Increase Hours -->
         <ImageButton
             android:id="@+id/cmdIncreaseHours"
-            style="@style/timerButton_up" />
+            style="@style/timerButton_up"
+            android:background="?android:selectableItemBackground"/>
 
         <!-- Hours -->
         <TextView
@@ -27,7 +28,8 @@
         <!-- Button Decrease Hours -->
         <ImageButton
             android:id="@+id/cmdDecreaseHours"
-            style="@style/timerButton_down" />
+            style="@style/timerButton_down"
+            android:background="?android:selectableItemBackground"/>
 
     </LinearLayout>
 
@@ -41,7 +43,8 @@
         <!-- Button Increase Minutes -->
         <ImageButton
             android:id="@+id/cmdIncreaseMinutes"
-            style="@style/timerButton_up" />
+            style="@style/timerButton_up"
+            android:background="?android:selectableItemBackground"/>
 
         <!-- Minutes -->
         <TextView
@@ -51,7 +54,8 @@
         <!-- Button Decrease Minutes -->
         <ImageButton
             android:id="@+id/cmdDecreaseMinutes"
-            style="@style/timerButton_down" />
+            style="@style/timerButton_down"
+            android:background="?android:selectableItemBackground"/>
 
     </LinearLayout>
 
@@ -64,7 +68,8 @@
         <!-- Button Increase Seconds -->
         <ImageButton
             android:id="@+id/cmdIncreaseSeconds"
-            style="@style/timerButton_up" />
+            style="@style/timerButton_up"
+            android:background="?android:selectableItemBackground"/>
 
         <!-- Seconds -->
         <TextView
@@ -74,7 +79,8 @@
         <!-- Button Decrease Seconds -->
         <ImageButton
             android:id="@+id/cmdDecreaseSeconds"
-            style="@style/timerButton_down" />
+            style="@style/timerButton_down"
+            android:background="?android:selectableItemBackground"/>
 
     </LinearLayout>
 
@@ -93,6 +99,7 @@
     <!-- Switch Left -->
     <ImageButton
         android:id="@+id/cmdSwitchToTimer"
-        style="@style/switch_left" />
+        style="@style/switch_left"
+        android:background="?android:selectableItemBackground"/>
 
 </RelativeLayout>

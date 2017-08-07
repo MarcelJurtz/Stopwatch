@@ -20,6 +20,7 @@
 
     <ImageButton
         android:id="@+id/cmdSwitchToCountdown"
-        style="@style/switch_right" />
+        style="@style/switch_right"
+        android:background="?android:selectableItemBackground"/>
 
 </RelativeLayout>
