@@ -1,4 +1,4 @@
-package com.marceljurtz.simplestopwatch.countdown
+package com.marceljurtz.simplestopwatch.Helper
 
 class TimeInterval(hours: Int, minutes: Int, seconds: Int, milliseconds: Int) {
     private var IntervalHours = hours

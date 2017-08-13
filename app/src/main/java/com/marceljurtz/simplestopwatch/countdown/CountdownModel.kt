@@ -1,39 +1,46 @@
 package com.marceljurtz.simplestopwatch.countdown
 
-import android.content.Context
-import com.marceljurtz.simplestopwatch.R
+import com.marceljurtz.simplestopwatch.Helper.TimeUnit
+import com.marceljurtz.simplestopwatch.Helper.TimeInterval
 
-class CountdownModel(context: Context?) {
+class CountdownModel {
 
-    val maxHours = 24;
-    val maxMinutes = 59;
-    val maxSeconds = 59;
+    private var timeInSeconds = 0L
+    private var timeInterval = TimeInterval(0, 0, 0, 0)
 
-    var appContext = context
 
-    // Load default time from shared preferences
-    public fun getDefaultTime() : IntArray {
-        val shared = appContext?.getSharedPreferences(appContext?.getString(R.string.pref), Context.MODE_PRIVATE)
-        val savedTime = shared?.getLong(appContext?.getString(R.string.pref_countdown_default),0) ?: 0
-
-        var hours: Long = savedTime / 3600
-        var minutes: Long = (savedTime - (hours * 3600)) / 60
-        var seconds: Long = savedTime % 60
-
-        var arr = IntArray(3)
-        arr.set(0, seconds.toInt())
-        arr.set(1, minutes.toInt())
-        arr.set(2, hours.toInt())
-
-        return arr
+    fun getTimeInTimeInterval(): TimeInterval {
+        return getTimeIntervalFromSeconds(timeInSeconds)
     }
 
-    // Save default time to shared preferences
-    public fun setDefaultTime(seconds: Long) {
-        val shared = appContext?.getSharedPreferences(appContext?.getString(R.string.pref), Context.MODE_PRIVATE)
-        val editor = shared?.edit()
-        editor?.putLong(appContext?.getString(R.string.pref_countdown_default), seconds)
-        editor?.commit()
+    // Increase & decrease time
+    fun updateTime(unit: TimeUnit, amount: Int) {
+        val timeInSecondsBk = timeInSeconds
+
+        if(unit.equals(TimeUnit.HOUR)) {
+            timeInSeconds += amount * 60 * 60
+        } else if(unit.equals(TimeUnit.MINUTE)) {
+            timeInSeconds += amount * 60
+        } else if(unit.equals(TimeUnit.SECOND)) {
+            timeInSeconds += amount
+        }
+
+        if(timeInSeconds < 0) timeInSeconds = timeInSecondsBk
     }
 
+    fun getTimeIntervalFromSeconds(seconds: Long): TimeInterval {
+        var mSeconds = seconds.toInt()
+        var mMinutes = mSeconds / 60
+        var mHours = mMinutes / 60
+        mMinutes  = mMinutes % 60
+        mSeconds = mSeconds % 60
+
+        return TimeInterval(mHours, mMinutes, mSeconds, 0)
+    }
+
+    // Countdown tick
+    // Decreases time by 1
+    fun tickBackwards() {
+        updateTime(TimeUnit.SECOND, -1)
+    }
 }

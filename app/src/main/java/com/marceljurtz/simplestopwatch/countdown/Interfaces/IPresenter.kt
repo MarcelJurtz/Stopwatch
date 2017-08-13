@@ -1,4 +1,6 @@
-package com.marceljurtz.simplestopwatch.countdown
+package com.marceljurtz.simplestopwatch.countdown.Interfaces
+
+import com.marceljurtz.simplestopwatch.Helper.TimeInterval
 
 /*
     Definition of delegate methods for the default android activity lifecycle
@@ -10,5 +12,8 @@ interface IPresenter {
     fun onPause()
     fun onResume()
     fun onDestroy()
-    fun onTimeChanged(timeInterval: TimeInterval)
+    fun onTimeChanged(timeInterval: TimeInterval?)
+
+    fun startStopClick()
+    fun resetClick()
 }

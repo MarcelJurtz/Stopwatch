@@ -5,7 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.marceljurtz.simplestopwatch.R
-import com.marceljurtz.simplestopwatch.TimeUnit
+import com.marceljurtz.simplestopwatch.Helper.TimeUnit
+import com.marceljurtz.simplestopwatch.countdown.Interfaces.IView
 import com.marceljurtz.simplestopwatch.stopwatch.TimerActivity
 import kotlinx.android.synthetic.main.activity_countdown.*
 
@@ -25,19 +26,11 @@ class CountdownView : AppCompatActivity(), IView {
         setContentView(R.layout.activity_countdown)
 
         rlCountdownBackground.setOnClickListener {
-            if (!timerRunning) {
-                startTimer()
-            } else {
-                stopTimer()
-            }
-            timerRunning = !timerRunning
+            presenter?.startStopClick()
         }
 
         rlCountdownBackground.setOnLongClickListener {
-            if (timerRunning) {
-                stopTimer()
-            }
-            presenter?.resetCountdown()
+            presenter?.resetClick()
             true
         }
 
@@ -128,38 +121,23 @@ class CountdownView : AppCompatActivity(), IView {
         lblCountdownSeconds.text = (String.format("%02d", seconds))
     }
 
-    protected fun startTimer() {
-        toggleViewsEnabled(timerRunning)
-
-        var seconds = lblCountdownSeconds.text.toString().toInt()
-        var minutes = lblCountdownMinutes.text.toString().toInt()
-        var hours = lblCountdownHours.text.toString().toInt()
-
-        presenter?.startCountdownClick(hours, minutes, seconds)
+    override fun disableControls() {
+        cmdIncreaseHours.setVisibility(View.GONE)
+        cmdDecreaseHours.setVisibility(View.GONE)
+        cmdIncreaseMinutes.setVisibility(View.GONE)
+        cmdDecreaseMinutes.setVisibility(View.GONE)
+        cmdIncreaseSeconds.setVisibility(View.GONE)
+        cmdDecreaseSeconds.setVisibility(View.GONE)
+        cmdSwitchToTimer.setVisibility(View.GONE)
     }
 
-    protected fun stopTimer() {
-        presenter?.stopCountdown()
-        toggleViewsEnabled(!timerRunning)
-    }
-
-    fun toggleViewsEnabled(enabled: Boolean) {
-        if(enabled) {
-            cmdIncreaseHours.setVisibility(View.VISIBLE)
-            cmdDecreaseHours.setVisibility(View.VISIBLE)
-            cmdIncreaseMinutes.setVisibility(View.VISIBLE)
-            cmdDecreaseMinutes.setVisibility(View.VISIBLE)
-            cmdIncreaseSeconds.setVisibility(View.VISIBLE)
-            cmdDecreaseSeconds.setVisibility(View.VISIBLE)
-            cmdSwitchToTimer.setVisibility(View.VISIBLE)
-        } else {
-            cmdIncreaseHours.setVisibility(View.GONE)
-            cmdDecreaseHours.setVisibility(View.GONE)
-            cmdIncreaseMinutes.setVisibility(View.GONE)
-            cmdDecreaseMinutes.setVisibility(View.GONE)
-            cmdIncreaseSeconds.setVisibility(View.GONE)
-            cmdDecreaseSeconds.setVisibility(View.GONE)
-            cmdSwitchToTimer.setVisibility(View.GONE)
-        }
+    override fun enableControls() {
+        cmdIncreaseHours.setVisibility(View.VISIBLE)
+        cmdDecreaseHours.setVisibility(View.VISIBLE)
+        cmdIncreaseMinutes.setVisibility(View.VISIBLE)
+        cmdDecreaseMinutes.setVisibility(View.VISIBLE)
+        cmdIncreaseSeconds.setVisibility(View.VISIBLE)
+        cmdDecreaseSeconds.setVisibility(View.VISIBLE)
+        cmdSwitchToTimer.setVisibility(View.VISIBLE)
     }
 }

@@ -1,12 +1,15 @@
 package com.marceljurtz.simplestopwatch.countdown
 
 import android.os.Handler
-import com.marceljurtz.simplestopwatch.TimeUnit
+import com.marceljurtz.simplestopwatch.Helper.TimeUnit
+import com.marceljurtz.simplestopwatch.Helper.TimeInterval
+import com.marceljurtz.simplestopwatch.countdown.Interfaces.IPresenter
+import com.marceljurtz.simplestopwatch.countdown.Interfaces.IView
 
 class CountdownPresenter : IPresenter {
 
     private var countdownView: IView? = null
-    private var countdownModel: Countdown? = null
+    private var countdownModel: CountdownModel? = null
 
     private var startTime = 0L
     private var timeInSeconds = 0L
@@ -25,39 +28,49 @@ class CountdownPresenter : IPresenter {
     override fun onCreate(view: IView) {
         // init model and presenter and set text
         this.countdownView = view
-        this.countdownModel = Countdown()
+        this.countdownModel = CountdownModel()
+
+        // TODO: SharedPreferences DefaultTime
     }
     override fun onDestroy() {}
     override fun onPause() {}
     override fun onResume() {}
 
+    // GUI start & stop
+    override fun startStopClick() {
+        if(timerRunning) {
+            // Stop Timer
+            countdownView?.enableControls()
+            stopTimer()
+        } else {
+            // Start Timer
+            countdownView?.disableControls()
+            startTimer()
+        }
+        timerRunning = !timerRunning
+    }
 
+    // GUI reset
+    override fun resetClick() {
+        countdownView?.setCountdownText(0,0,0)
+        countdownView?.enableControls()
+    }
+
+    // Update time in model and view
     fun updateTime(unit: TimeUnit, amount: Int) {
+        resetTimer()
         countdownModel?.updateTime(unit,amount)
         loadCountdownText()
     }
 
-    fun startCountdownClick(hours: Int, Minutes: Int, seconds: Int) {
-        // Save to SharedPreferences and start timer
-        startTimer()
-    }
-
-    fun stopCountdown() {
-        stopTimer()
-    }
-
-    fun resetCountdown() {
-        resetTimer()
-        loadCountdownText()
-    }
-
+    // Set countdown text by value from model
     private fun loadCountdownText() {
-        val timeInterval = countdownModel?.getTimeInTimeInterval() ?: TimeInterval(0,0,0,0)
-        countdownView?.setCountdownText(timeInterval.getHours(), timeInterval.getMinutes(), timeInterval.getSeconds())
+        val timeInterval = countdownModel?.getTimeInTimeInterval() ?: TimeInterval(0, 0, 0, 0)
+        onTimeChanged(timeInterval)
     }
 
-    override fun onTimeChanged(timeInterval: TimeInterval) {
-        countdownView?.setCountdownText(timeInterval.getHours(), timeInterval.getMinutes(), timeInterval.getSeconds())
+    override fun onTimeChanged(timeInterval: TimeInterval?) {
+        countdownView?.setCountdownText(timeInterval?.getHours() ?: 0, timeInterval?.getMinutes() ?: 0, timeInterval?.getSeconds() ?: 0)
     }
 
 
@@ -73,6 +86,7 @@ class CountdownPresenter : IPresenter {
     }
 
     fun resetTimer() {
+        handler.removeCallbacks(updateTimer)
         startTime = 0L
         timeInSeconds = 0L
         timeSwapBuff = 0L
@@ -82,7 +96,6 @@ class CountdownPresenter : IPresenter {
         mins = 0
         hours = 0
         iterations = 0
-        handler.removeCallbacks(updateTimer)
     }
 
     // Countdown tick
@@ -97,12 +110,13 @@ class CountdownPresenter : IPresenter {
             secs = timeInterval?.getSeconds() ?: 0
             mins = timeInterval?.getMinutes() ?: 0
             hours = timeInterval?.getHours() ?: 0
-            if(secs < 0 || mins < 0 || hours < 0) {
-                stopTimer()
+            if(secs <= 0 && mins <= 0 && hours <= 0) {
+                startStopClick()
             } else {
                 // countdownView?.updateTimerView(hours, mins, secs)
                 handler.postDelayed(this, 1000)
             }
+            onTimeChanged(countdownModel?.getTimeInTimeInterval())
         }
     }
 }
