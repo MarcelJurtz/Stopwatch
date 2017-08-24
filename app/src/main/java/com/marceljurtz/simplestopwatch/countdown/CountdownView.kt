@@ -1,5 +1,6 @@
 package com.marceljurtz.simplestopwatch.countdown
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -19,11 +20,11 @@ class CountdownView : AppCompatActivity(), IView {
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
 
+        setContentView(R.layout.activity_countdown)
+
         // Set up presenter
         presenter = CountdownPresenter()
         presenter?.onCreate(this)
-
-        setContentView(R.layout.activity_countdown)
 
         rlCountdownBackground.setOnClickListener {
             presenter?.startStopClick()
@@ -101,13 +102,13 @@ class CountdownView : AppCompatActivity(), IView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter?.onDestroy()
+        super.onDestroy()
     }
 
     override fun onPause() {
-        super.onPause()
         presenter?.onPause()
+        super.onPause()
     }
 
     override fun onResume() {
@@ -115,10 +116,16 @@ class CountdownView : AppCompatActivity(), IView {
         presenter?.onResume()
     }
 
-    override fun setCountdownText(hours: Int, minutes: Int, seconds: Int) {
-        lblCountdownHours.text = (String.format("%02d", hours))
-        lblCountdownMinutes.text = (String.format("%02d", minutes))
-        lblCountdownSeconds.text = (String.format("%02d", seconds))
+    override fun setSecondsText(secondText: String) {
+        lblCountdownSeconds.text = secondText;
+    }
+
+    override fun setMinutesText(minuteText: String) {
+        lblCountdownMinutes.text = minuteText;
+    }
+
+    override fun setHoursText(hourText: String) {
+        lblCountdownHours.text = hourText;
     }
 
     override fun disableControls() {
@@ -139,5 +146,9 @@ class CountdownView : AppCompatActivity(), IView {
         cmdIncreaseSeconds.setVisibility(View.VISIBLE)
         cmdDecreaseSeconds.setVisibility(View.VISIBLE)
         cmdSwitchToTimer.setVisibility(View.VISIBLE)
+    }
+
+    override fun getContext() : Context {
+        return applicationContext
     }
 }

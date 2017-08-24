@@ -3,6 +3,7 @@ package com.marceljurtz.simplestopwatch.countdown
 import android.os.Handler
 import com.marceljurtz.simplestopwatch.Helper.TimeUnit
 import com.marceljurtz.simplestopwatch.Helper.TimeInterval
+import com.marceljurtz.simplestopwatch.countdown.Helper.PreferenceManager
 import com.marceljurtz.simplestopwatch.countdown.Interfaces.IPresenter
 import com.marceljurtz.simplestopwatch.countdown.Interfaces.IView
 
@@ -26,13 +27,18 @@ class CountdownPresenter : IPresenter {
 
     // Presenter overrides
     override fun onCreate(view: IView) {
-        // init model and presenter and set text
         this.countdownView = view
         this.countdownModel = CountdownModel()
 
-        // TODO: SharedPreferences DefaultTime
+        val prefManager: PreferenceManager = PreferenceManager(view.getContext())
+        val interval = prefManager.getDefaultTime()
+        onTimeChanged(prefManager.getDefaultTime())
     }
-    override fun onDestroy() {}
+    override fun onDestroy() {
+        // Save to shared preferences
+        val prefManager: PreferenceManager = PreferenceManager(countdownView?.getContext())
+        prefManager.setDefaultTime(timeInterval?.getTimeInSeconds() ?: 0)
+    }
     override fun onPause() {}
     override fun onResume() {}
 
@@ -52,7 +58,8 @@ class CountdownPresenter : IPresenter {
 
     // GUI reset
     override fun resetClick() {
-        countdownView?.setCountdownText(0,0,0)
+        timeInterval = TimeInterval(0,0,0,0)
+        onTimeChanged(timeInterval)
         countdownView?.enableControls()
     }
 
@@ -70,7 +77,13 @@ class CountdownPresenter : IPresenter {
     }
 
     override fun onTimeChanged(timeInterval: TimeInterval?) {
-        countdownView?.setCountdownText(timeInterval?.getHours() ?: 0, timeInterval?.getMinutes() ?: 0, timeInterval?.getSeconds() ?: 0)
+        val hours = timeInterval?.getHours() ?: 0
+        val minutes = timeInterval?.getMinutes() ?: 0
+        val seconds = timeInterval?.getSeconds() ?: 0
+
+        countdownView?.setHoursText(String.format("%02d", hours))
+        countdownView?.setMinutesText(String.format("%02d", minutes))
+        countdownView?.setSecondsText(String.format("%02d", seconds))
     }
 
 

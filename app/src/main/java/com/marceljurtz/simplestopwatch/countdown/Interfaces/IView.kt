@@ -1,7 +1,14 @@
 package com.marceljurtz.simplestopwatch.countdown.Interfaces
 
+import android.content.Context
+
 interface IView {
-    fun setCountdownText(hours: Int, minutes: Int, seconds: Int)
+    fun setSecondsText(text: String)
+    fun setMinutesText(text: String)
+    fun setHoursText(text: String)
+
     fun enableControls()
     fun disableControls()
+
+    fun getContext() : Context
 }

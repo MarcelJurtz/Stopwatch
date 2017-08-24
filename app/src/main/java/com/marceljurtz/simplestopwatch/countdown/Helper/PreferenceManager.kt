@@ -1,6 +1,7 @@
 package com.marceljurtz.simplestopwatch.countdown.Helper
 
 import android.content.Context
+import com.marceljurtz.simplestopwatch.Helper.TimeInterval
 import com.marceljurtz.simplestopwatch.R
 
 class PreferenceManager(context: Context?) {
@@ -11,24 +12,21 @@ class PreferenceManager(context: Context?) {
     var appContext = context
 
     // Load default time from shared preferences
-    public fun getDefaultTime() : IntArray {
+    public fun getDefaultTime() : TimeInterval {
         val shared = appContext?.getSharedPreferences(appContext?.getString(R.string.pref), Context.MODE_PRIVATE)
         val savedTime = shared?.getLong(appContext?.getString(R.string.pref_countdown_default),0) ?: 0
 
-        var hours: Long = savedTime / 3600
-        var minutes: Long = (savedTime - (hours * 3600)) / 60
-        var seconds: Long = savedTime % 60
+        var hours: Int = (savedTime / 3600).toInt()
+        var minutes: Int = ((savedTime - (hours * 3600)) / 60).toInt()
+        var seconds: Int = (savedTime % 60).toInt()
 
-        var arr = IntArray(3)
-        arr.set(0, seconds.toInt())
-        arr.set(1, minutes.toInt())
-        arr.set(2, hours.toInt())
+        val interval = TimeInterval(hours, minutes, seconds, 0)
 
-        return arr
+        return interval
     }
 
     // Save default time to shared preferences
-    public fun setDefaultTime(seconds: Long) {
+    fun setDefaultTime(seconds: Long) {
         val shared = appContext?.getSharedPreferences(appContext?.getString(R.string.pref), Context.MODE_PRIVATE)
         val editor = shared?.edit()
         editor?.putLong(appContext?.getString(R.string.pref_countdown_default), seconds)
